@@ -33,7 +33,7 @@ public class Main {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node_ = nodeList.item(i);
             if (Node.ELEMENT_NODE == node_.getNodeType()) {
-                System.out.println("Текущий узел: " + node_.getNodeName());
+                System.out.println("Текущий узел: " + node_.getNodeName() + " [Значение узла: " + node_.getNodeValue());
                 Element element = (Element) node_;
                 NamedNodeMap map = element.getAttributes();
                 for (int a = 0; a < map.getLength(); a++) {
