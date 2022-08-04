@@ -6,6 +6,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -21,28 +23,25 @@ public class Main {
         Document document = builder.parse(new File(fileWay));
 
         Node root = document.getDocumentElement();
-        System.out.println("Корневой узел" + root.getNodeName());
+        System.out.println("Корневой узел - " + root.getNodeName());
         read(root);
-
-
     }
-
 
     private static void read(Node node) {
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node_ = nodeList.item(i);
             if (Node.ELEMENT_NODE == node_.getNodeType()) {
-                System.out.println("Текущий узел: " + node_.getNodeName() + " [Значение узла: " + node_.getNodeValue());
-                Element element = (Element) node_;
-                NamedNodeMap map = element.getAttributes();
-                for (int a = 0; a < map.getLength(); a++) {
-                    String attrName = map.item(a).getNodeName();
-                    String attrValue = map.item(a).getNodeValue();
-                    System.out.println("Атрибут: " + attrName + "; значение: " + attrValue);
-                }
-                read(node_);
+                if (node_.getNodeName().equals("id"))
+                    System.out.println(node_.getNodeName());
             }
+//             List<String> staff = new ArrayList<>();
+//             staff.add(node_.getTextContent());
+//                System.out.println(staff);
+
+
+            read(node_);
         }
     }
 }
+
