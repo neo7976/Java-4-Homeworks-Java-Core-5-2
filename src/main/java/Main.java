@@ -33,11 +33,11 @@ public class Main {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node_ = nodeList.item(i);
             if (Node.ELEMENT_NODE == node_.getNodeType()) {
-                if (node_.getNodeName().equals("id")) {
-                    System.out.println(node_.getNodeName());
-                    System.out.println(node_.getTextContent());
-                }
-
+                extracted(node_, "id");
+                extracted(node_, "firstName");
+                extracted(node_, "lastName");
+                extracted(node_, "country");
+                extracted(node_, "age");
             }
 //             List<String> staff = new ArrayList<>();
 //             staff.add(node_.getTextContent());
@@ -47,5 +47,14 @@ public class Main {
             read(node_);
         }
     }
+
+    private static void extracted(Node node_, String nameNode) {
+        if (node_.getNodeName().equals(nameNode)) {
+            System.out.println(node_.getNodeName() + " - " + node_.getTextContent());
+        }
+    }
+
 }
+
+
 
