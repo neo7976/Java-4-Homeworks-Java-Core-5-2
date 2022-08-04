@@ -28,12 +28,16 @@ public class Main {
     }
 
     private static void read(Node node) {
+        List<Employee> employees = new ArrayList<>();
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node_ = nodeList.item(i);
             if (Node.ELEMENT_NODE == node_.getNodeType()) {
-                if (node_.getNodeName().equals("id"))
+                if (node_.getNodeName().equals("id")) {
                     System.out.println(node_.getNodeName());
+                    System.out.println(node_.getTextContent());
+                }
+
             }
 //             List<String> staff = new ArrayList<>();
 //             staff.add(node_.getTextContent());
