@@ -35,13 +35,21 @@ public class Main {
         for (int i = 0; i < employees.getLength(); i++) {
             Node employee = employees.item(i);
             //Если нода не текст, то это книга - заходим внутрь
-            if (employee.getNodeType()!=Node.TEXT_NODE){
+            if (employee.getNodeType() != Node.TEXT_NODE) {
                 NodeList employeeStaffs = employee.getChildNodes();
                 for (int j = 0; j < employeeStaffs.getLength(); j++) {
+                    Employee employee1 = new Employee();
                     Node employeeStaff = employeeStaffs.item(j);
                     //Если нода не текст, то это один из параметров
-                    if(employeeStaff.getNodeType()!=Node.TEXT_NODE) {
-                        System.out.println(employeeStaff.getNodeName() + ":" + employeeStaff.getChildNodes().item(0).getTextContent());
+//                    if(employeeStaff.getNodeType()!=Node.TEXT_NODE) {
+//                        System.out.println(employeeStaff.getNodeName() + ":" + employeeStaff.getChildNodes().item(0).getTextContent());
+//                    }
+
+                    if (employeeStaff.getNodeType() != Node.TEXT_NODE) {
+                        if (employeeStaff.getNodeName().equals("id")) {
+                            employee1.setId(Long.parseLong(employeeStaff.getChildNodes().item(0).getTextContent()));
+                            System.out.println("Значение id:" + employee1.getId());
+                        }
                     }
                 }
                 System.out.println("=========>>>>>>>>>");
