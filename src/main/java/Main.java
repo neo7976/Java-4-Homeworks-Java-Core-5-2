@@ -12,9 +12,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-//        List<Employee> list = parseXML("src/main/resources/data.xml");
-        parseXML("src/main/resources/data.xml");
-
+        List<Employee> list = parseXML("src/main/resources/data.xml");
+//        parseXML("src/main/resources/data.xml");
+        for (Employee employee : list) {
+            System.out.println(employee);
+        }
 //        System.out.println(list.size());
 //        for (Employee employee : list) {
 //            System.out.println(employee);
@@ -22,7 +24,7 @@ public class Main {
     }
 
 
-    public static void parseXML(String fileWay) throws ParserConfigurationException, IOException, SAXException {
+    public static List<Employee> parseXML(String fileWay) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new File(fileWay));
@@ -59,11 +61,12 @@ public class Main {
 
                     }
                 }
+//                System.out.println("=========>>>>>>>>>");
                 employeesList.add(employee1);
-                System.out.println("=========>>>>>>>>>");
-                System.out.println(employeesList);
+//                System.out.println(employeesList);
             }
         }
+        return employeesList;
     }
 }
 
