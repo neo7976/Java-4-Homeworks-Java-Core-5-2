@@ -46,10 +46,17 @@ public class Main {
 //                    }
 
                     if (employeeStaff.getNodeType() != Node.TEXT_NODE) {
-                        if (employeeStaff.getNodeName().equals("id")) {
+                        if (employeeStaff.getNodeName().equals("id"))
                             employee1.setId(Long.parseLong(employeeStaff.getChildNodes().item(0).getTextContent()));
-                            System.out.println("Значение id:" + employee1.getId());
-                        }
+                        if (employeeStaff.getNodeName().equals("firstName"))
+                            employee1.setFirstName((employeeStaff.getChildNodes().item(0).getTextContent()));
+                        if (employeeStaff.getNodeName().equals("lastName"))
+                            employee1.setLastName((employeeStaff.getChildNodes().item(0).getTextContent()));
+                        if (employeeStaff.getNodeName().equals("country"))
+                            employee1.setCountry((employeeStaff.getChildNodes().item(0).getTextContent()));
+                        if (employeeStaff.getNodeName().equals("age"))
+                            employee1.setAge(Integer.parseInt(employeeStaff.getChildNodes().item(0).getTextContent()));
+
                     }
                 }
                 employeesList.add(employee1);
