@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -5,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +20,8 @@ public class Main {
         for (Employee employee : list) {
             System.out.println(employee);
         }
-
+        String json = listToJson(list);
+        writeString(json);
     }
 
 
@@ -63,6 +67,26 @@ public class Main {
             }
         }
         return employeesList;
+    }
+
+    public static String listToJson(List<Employee> list) {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.setPrettyPrinting().create();
+//        Type listType = new TypeToken<List<task1.Employee>>() {
+//        }.getType();
+//        return gson.toJson(list, listType);
+        return gson.toJson(list);
+    }
+
+
+    public static void writeString(String json) {
+//        try (FileWriter writer = new FileWriter("src/main/resources/new_data_with_type.json")) {
+        try (FileWriter writer = new FileWriter("src/main/resources/new_data.json")) {
+            writer.write(json);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
