@@ -17,10 +17,7 @@ public class Main {
         for (Employee employee : list) {
             System.out.println(employee);
         }
-//        System.out.println(list.size());
-//        for (Employee employee : list) {
-//            System.out.println(employee);
-//        }
+
     }
 
 
@@ -36,7 +33,7 @@ public class Main {
         NodeList employees = root.getChildNodes();
         for (int i = 0; i < employees.getLength(); i++) {
             Node employee = employees.item(i);
-            //Если нода не текст, то это книга - заходим внутрь
+            //Если нода не текст, то это сотрудник - заходим внутрь
             if (employee.getNodeType() != Node.TEXT_NODE) {
                 NodeList employeeStaffs = employee.getChildNodes();
                 Employee employee1 = new Employee();
@@ -58,7 +55,6 @@ public class Main {
                             employee1.setCountry((employeeStaff.getChildNodes().item(0).getTextContent()));
                         if (employeeStaff.getNodeName().equals("age"))
                             employee1.setAge(Integer.parseInt(employeeStaff.getChildNodes().item(0).getTextContent()));
-
                     }
                 }
 //                System.out.println("=========>>>>>>>>>");
