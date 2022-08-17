@@ -29,7 +29,7 @@ public class Main {
 
         Node root = document.getDocumentElement();
         System.out.println("Корневой узел - " + root.getNodeName());
-//        List<Employee> employeesList = new ArrayList<>();
+        List<Employee> employeesList = new ArrayList<>();
         //Просматриваем все элементы корневого - т.е. сотрудников
         NodeList employees = root.getChildNodes();
         for (int i = 0; i < employees.getLength(); i++) {
@@ -37,8 +37,8 @@ public class Main {
             //Если нода не текст, то это книга - заходим внутрь
             if (employee.getNodeType() != Node.TEXT_NODE) {
                 NodeList employeeStaffs = employee.getChildNodes();
+                Employee employee1 = new Employee();
                 for (int j = 0; j < employeeStaffs.getLength(); j++) {
-                    Employee employee1 = new Employee();
                     Node employeeStaff = employeeStaffs.item(j);
                     //Если нода не текст, то это один из параметров
 //                    if(employeeStaff.getNodeType()!=Node.TEXT_NODE) {
@@ -52,7 +52,9 @@ public class Main {
                         }
                     }
                 }
+                employeesList.add(employee1);
                 System.out.println("=========>>>>>>>>>");
+                System.out.println(employeesList);
             }
         }
     }
