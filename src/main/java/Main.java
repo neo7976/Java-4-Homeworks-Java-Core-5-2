@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -5,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,10 +16,12 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         List<Employee> list = parseXML("src/main/resources/data.xml");
-        System.out.println(list.size());
+//        parseXML("src/main/resources/data.xml");
         for (Employee employee : list) {
             System.out.println(employee);
         }
+        String json = listToJson(list);
+        writeString(json);
     }
 
 
@@ -27,47 +32,62 @@ public class Main {
 
         Node root = document.getDocumentElement();
         System.out.println("Корневой узел - " + root.getNodeName());
-        return read(root);
+        List<Employee> employeesList = new ArrayList<>();
+        //Просматриваем все элементы корневого - т.е. сотрудников
+        NodeList employees = root.getChildNodes();
+        for (int i = 0; i < employees.getLength(); i++) {
+            Node employee = employees.item(i);
+            //Если нода не текст, то это сотрудник - заходим внутрь
+            if (employee.getNodeType() != Node.TEXT_NODE) {
+                NodeList employeeStaffs = employee.getChildNodes();
+                Employee employee1 = new Employee();
+                for (int j = 0; j < employeeStaffs.getLength(); j++) {
+                    Node employeeStaff = employeeStaffs.item(j);
+                    //Если нода не текст, то это один из параметров
+//                    if(employeeStaff.getNodeType()!=Node.TEXT_NODE) {
+//                        System.out.println(employeeStaff.getNodeName() + ":" + employeeStaff.getChildNodes().item(0).getTextContent());
+//                    }
 
-    }
-
-    private static List<Employee> read(Node node) {
-        List<Employee> employees = new ArrayList<>();
-        NodeList nodeList = node.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node_ = nodeList.item(i);
-            if (Node.ELEMENT_NODE == node_.getNodeType()) {
-                Employee employee = new Employee();
-
-                if (node_.getNodeName().equals("id")) {
-                    System.out.println(node_.getNodeName() + " - " + node_.getTextContent());
-                    employee.id = Long.parseLong(node_.getTextContent());
-                } else if (node_.getNodeName().equals("firstName")) {
-                    System.out.println(node_.getNodeName() + " - " + node_.getTextContent());
-                    employee.firstName = node_.getTextContent();
-
-                } else if (node_.getNodeName().equals("lastName")) {
-                    System.out.println(node_.getNodeName() + " - " + node_.getTextContent());
-                    employee.lastName = node_.getTextContent();
-
-                } else if (node_.getNodeName().equals("country")) {
-                    System.out.println(node_.getNodeName() + " - " + node_.getTextContent());
-                    employee.country = node_.getTextContent();
-
-                } else if (node_.getNodeName().equals("age")) {
-                    System.out.println(node_.getNodeName() + " - " + node_.getTextContent());
-                    employee.age = Integer.parseInt(node_.getTextContent());
+                    if (employeeStaff.getNodeType() != Node.TEXT_NODE) {
+                        if (employeeStaff.getNodeName().equals("id"))
+                            employee1.setId(Long.parseLong(employeeStaff.getChildNodes().item(0).getTextContent()));
+                        if (employeeStaff.getNodeName().equals("firstName"))
+                            employee1.setFirstName((employeeStaff.getChildNodes().item(0).getTextContent()));
+                        if (employeeStaff.getNodeName().equals("lastName"))
+                            employee1.setLastName((employeeStaff.getChildNodes().item(0).getTextContent()));
+                        if (employeeStaff.getNodeName().equals("country"))
+                            employee1.setCountry((employeeStaff.getChildNodes().item(0).getTextContent()));
+                        if (employeeStaff.getNodeName().equals("age"))
+                            employee1.setAge(Integer.parseInt(employeeStaff.getChildNodes().item(0).getTextContent()));
+                    }
                 }
-                employees.add(employee);
+//                System.out.println("=========>>>>>>>>>");
+                employeesList.add(employee1);
+//                System.out.println(employeesList);
             }
-            read(node_);
-//             List<String> staff = new ArrayList<>();
-//             staff.add(node_.getTextContent());
-//                System.out.println(staff);
         }
-        return employees;
+        return employeesList;
     }
 
+    public static String listToJson(List<Employee> list) {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.setPrettyPrinting().create();
+//        Type listType = new TypeToken<List<task1.Employee>>() {
+//        }.getType();
+//        return gson.toJson(list, listType);
+        return gson.toJson(list);
+    }
+
+
+    public static void writeString(String json) {
+//        try (FileWriter writer = new FileWriter("src/main/resources/new_data_with_type.json")) {
+        try (FileWriter writer = new FileWriter("src/main/resources/new_data.json")) {
+            writer.write(json);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
